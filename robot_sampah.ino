@@ -3,10 +3,10 @@
 
 Servo lidServo;
 
-const int enaA = 5;   // enable A
-const int mA  = 4;   // motor A direction
-const int enaB = 7;   // enable B
-const int mB  = 6;   // motor B direction
+const int enaA = 10;   // enable A
+const int mA  = 9;   // motor A direction
+const int enaB = 12;   // enable B
+const int mB  = 11;   // motor B direction
 const int pwm  = 100;
 
 const int servoPin = 8;
@@ -28,8 +28,8 @@ String currentState = "STOP";
 void setMotorsStop() {
   digitalWrite(enaA, LOW);
   digitalWrite(enaB, LOW);
-  analogWrite(mA, pwm);
-  analogWrite(mB, pwm);
+  analogWrite(mA, 0);
+  analogWrite(mB, 0);
   currentState = "STOP";
 }
 
@@ -40,22 +40,22 @@ void setMotorsForward() {
 }
 
 void setMotorsBackward() {
-  digitalWrite(enaA, HIGH); analogWrite(mA, pwm);
-  digitalWrite(enaB, HIGH); analogWrite(mB, pwm);
+  digitalWrite(enaA, LOW); analogWrite(mA, pwm);
+  digitalWrite(enaB, LOW); analogWrite(mB, pwm);
   currentState = "BACK";
 }
 
 void setTurnRightContinuous() {
   // right turn by stopping right motor, left motor forward
   digitalWrite(enaA, HIGH); analogWrite(mA, pwm); // left forward
-  digitalWrite(enaB, LOW); analogWrite(mB, pwm);   // right stopped
+  digitalWrite(enaB, HIGH); analogWrite(mB, 0);   // right stopped
   currentState = "TURN_RIGHT";
 }
 
 void setTurnLeftContinuous() {
   // left turn by stopping left motor, right motor forward
-  digitalWrite(enaA, LOW); analogWrite(mA, LOW);   // left stopped
-  digitalWrite(enaB, HIGH); analogWrite(mB, HIGH); // right forward
+  digitalWrite(enaA, LOW); analogWrite(mA, 0);   // left stopped
+  digitalWrite(enaB, HIGH); analogWrite(mB, pwm); // right forward
   currentState = "TURN_LEFT";
 }
 

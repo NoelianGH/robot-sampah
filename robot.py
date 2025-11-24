@@ -38,18 +38,17 @@ def serial_reader_loop():
     buf = ""
     while running:
         try:
-            if ser is None:
-                time.sleep(0.1)
-                continue
-            line = ser.readline().decode(errors='ignore').strip()
+            # ...
+            line = ser.readline().decode(errors='ignore').strip() # <-- membaca 1 baris serial
             if not line:
                 continue
             # expecting lines like: DIST:123
             if line.startswith("DIST:"):
                 try:
-                    val = int(line.split(":",1)[1])
+                    val = int(line.split(":",1)[1]) # <-- memisahkan dan konversi ke integer
                     with state_lock:
                         current_distance = val
+                    print(f"[ARDUINO-DIST] Jarak: {val} cm") # <--- TAMBAHKAN LINE INI UNTUK DEBUGGING
                 except:
                     pass
             else:
