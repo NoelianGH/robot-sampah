@@ -9,7 +9,7 @@ import kamera  # gunakan modul kamera.py yang sudah ada (memanfaatkan mediapipe)
 import speech_recognition as sr
 
 # ---------------- USER CONFIG ----------------
-SERIAL_PORT = "COM7"   # <-- Ganti sesuai port Arduino (contoh "COM3" di Windows)
+SERIAL_PORT = "COM8"   # <-- Ganti sesuai port Arduino (contoh "COM3" di Windows)
 SERIAL_BAUDRATE = 9600
 
 DIST_THRESHOLD_CM = 30         # jarak untuk berhenti & servo

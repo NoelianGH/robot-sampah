@@ -3,13 +3,14 @@
 
 Servo lidServo;
 
-const int enaA = 10;   // enable A
-const int inA  = 11;   // motor A direction
-const int enaB = 12;   // enable B
-const int inB  = 13;   // motor B direction
+const int enaA = 5;   // enable A
+const int mA  = 4;   // motor A direction
+const int enaB = 7;   // enable B
+const int mB  = 6;   // motor B direction
+const int pwm  = 100;
 
-const int servoPin = 9;
-const int pingPin = 8; // trig/echo style (same approach as earlier sketch)
+const int servoPin = 8;
+const int pingPin = 7; // trig/echo style (same approach as earlier sketch)
 
 long duration_cm;
 int distance_cm;
@@ -27,42 +28,42 @@ String currentState = "STOP";
 void setMotorsStop() {
   digitalWrite(enaA, LOW);
   digitalWrite(enaB, LOW);
-  digitalWrite(inA, LOW);
-  digitalWrite(inB, LOW);
+  analogWrite(mA, pwm);
+  analogWrite(mB, pwm);
   currentState = "STOP";
 }
 
 void setMotorsForward() {
-  digitalWrite(enaA, HIGH); digitalWrite(inA, HIGH);
-  digitalWrite(enaB, HIGH); digitalWrite(inB, HIGH);
+  digitalWrite(enaA, HIGH); analogWrite(mA, pwm);
+  digitalWrite(enaB, HIGH); analogWrite(mB, pwm);
   currentState = "FORWARD";
 }
 
 void setMotorsBackward() {
-  digitalWrite(enaA, HIGH); digitalWrite(inA, LOW);
-  digitalWrite(enaB, HIGH); digitalWrite(inB, LOW);
+  digitalWrite(enaA, HIGH); analogWrite(mA, pwm);
+  digitalWrite(enaB, HIGH); analogWrite(mB, pwm);
   currentState = "BACK";
 }
 
 void setTurnRightContinuous() {
   // right turn by stopping right motor, left motor forward
-  digitalWrite(enaA, HIGH); digitalWrite(inA, HIGH); // left forward
-  digitalWrite(enaB, LOW); digitalWrite(inB, LOW);   // right stopped
+  digitalWrite(enaA, HIGH); analogWrite(mA, pwm); // left forward
+  digitalWrite(enaB, LOW); analogWrite(mB, pwm);   // right stopped
   currentState = "TURN_RIGHT";
 }
 
 void setTurnLeftContinuous() {
   // left turn by stopping left motor, right motor forward
-  digitalWrite(enaA, LOW); digitalWrite(inA, LOW);   // left stopped
-  digitalWrite(enaB, HIGH); digitalWrite(inB, HIGH); // right forward
+  digitalWrite(enaA, LOW); analogWrite(mA, LOW);   // left stopped
+  digitalWrite(enaB, HIGH); analogWrite(mB, HIGH); // right forward
   currentState = "TURN_LEFT";
 }
 
 void setup() {
   pinMode(enaA, OUTPUT);
-  pinMode(inA, OUTPUT);
+  pinMode(mA, OUTPUT);
   pinMode(enaB, OUTPUT);
-  pinMode(inB, OUTPUT);
+  pinMode(mB, OUTPUT);
   pinMode(pingPin, OUTPUT); // we'll toggle to trigger then read pulse
 
   lidServo.attach(servoPin);
