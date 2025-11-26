@@ -3,14 +3,14 @@
 
 Servo lidServo;
 
-const int enaA = 10;   // enable A
-const int mA  = 9;   // motor A direction
-const int enaB = 12;   // enable B
-const int mB  = 11;   // motor B direction
+const int enaA = 5;   // enable A
+const int mA  = 4;   // motor A direction
+const int enaB = 7;   // enable B
+const int mB  = 6;   // motor B direction
 const int pwm  = 100;
 
-const int servoPin = 8;
-const int pingPin = 7; // trig/echo style (same approach as earlier sketch)
+const int servoPin = 9;
+const int pingPin = 8; // trig/echo style (same approach as earlier sketch)
 
 long duration_cm;
 int distance_cm;
@@ -35,27 +35,27 @@ void setMotorsStop() {
 
 void setMotorsForward() {
   digitalWrite(enaA, HIGH); analogWrite(mA, pwm);
-  digitalWrite(enaB, HIGH); analogWrite(mB, pwm);
+  digitalWrite(enaB, LOW); analogWrite(mB, pwm);
   currentState = "FORWARD";
 }
 
 void setMotorsBackward() {
   digitalWrite(enaA, LOW); analogWrite(mA, pwm);
-  digitalWrite(enaB, LOW); analogWrite(mB, pwm);
+  digitalWrite(enaB, HIGH); analogWrite(mB, pwm);
   currentState = "BACK";
 }
 
 void setTurnRightContinuous() {
   // right turn by stopping right motor, left motor forward
-  digitalWrite(enaA, HIGH); analogWrite(mA, pwm); // left forward
-  digitalWrite(enaB, HIGH); analogWrite(mB, 0);   // right stopped
+  digitalWrite(enaA, LOW); analogWrite(mA, pwm); 
+  digitalWrite(enaB, LOW); analogWrite(mB, pwm);   
   currentState = "TURN_RIGHT";
 }
 
 void setTurnLeftContinuous() {
   // left turn by stopping left motor, right motor forward
-  digitalWrite(enaA, LOW); analogWrite(mA, 0);   // left stopped
-  digitalWrite(enaB, HIGH); analogWrite(mB, pwm); // right forward
+  digitalWrite(enaA, HIGH); analogWrite(mA, pwm);   
+  digitalWrite(enaB, HIGH); analogWrite(mB, pwm); 
   currentState = "TURN_LEFT";
 }
 
@@ -85,7 +85,7 @@ int measureDistanceCm() {
   digitalWrite(pingPin, LOW);
   delayMicroseconds(2);
   digitalWrite(pingPin, HIGH);
-  delayMicroseconds(10);
+  delayMicroseconds(5);
   digitalWrite(pingPin, LOW);
 
   pinMode(pingPin, INPUT);
@@ -94,7 +94,23 @@ int measureDistanceCm() {
   int cm = duration * 0.034 / 2;
   return cm;
 }
+/*
+void openLid() {
+  for (int pos = 180; pos >= 40; pos--) {
+    lidServo.write(pos);
+    delay(15);
+  }
+  lidOpen = true;
+}
 
+void closeLid() {
+  for (int pos = 40; pos <= 180; pos++) {
+    myservo.write(pos);
+    delay(15);
+  }
+  lidOpen = false;
+}
+*/
 void doServoCycle() {
   // open -> wait -> close
   lidServo.write(openAngle);
