@@ -182,8 +182,8 @@ void loop() {
       Serial.print("DIST:");
       Serial.println(distance_cm);
       // auto lid behaviour (optional): keep commented out so PC controls when servo runs
-      // if (distance_cm > 0 && distance_cm <= openDistance && !lidOpen) { lidServo.write(openAngle); lidOpen=true; }
-      // else if (distance_cm > openDistance && lidOpen) { lidServo.write(closeAngle); lidOpen=false; }
+      if (distance_cm > 0 && distance_cm <= openDistance && !lidOpen) { lidServo.write(openAngle); lidOpen=true; }
+      else if (distance_cm > openDistance && lidOpen) { lidServo.write(closeAngle); lidOpen=false; }
     }
   }
 
