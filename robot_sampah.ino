@@ -17,8 +17,8 @@ int distance_cm;
 
 const int openDistance = 30;  // cm threshold for opening lid
 
-const int openAngle = 180;
-const int closeAngle = 0;
+const int angle1 = 180;
+const int angle2 = 0;
 
 bool lidOpen = false;
 
@@ -70,7 +70,7 @@ void setup() {
 
   Serial.begin(9600);
   delay(200);
-  lidServo.write(closeAngle);
+  lidServo.write(angle2);
   setMotorsStop();
 
   Serial.println("ARDUINO READY");
@@ -113,9 +113,9 @@ void closeLid() {
 */
 void doServoCycle() {
   // open -> wait -> close
-  lidServo.write(openAngle);
+  lidServo.write(angle1);
   delay(1500);
-  lidServo.write(closeAngle);
+  lidServo.write(angle2);
   delay(500);
 }
 
@@ -182,8 +182,8 @@ void loop() {
       Serial.print("DIST:");
       Serial.println(distance_cm);
       // auto lid behaviour (optional): keep commented out so PC controls when servo runs
-      if (distance_cm > 0 && distance_cm <= openDistance && !lidOpen) { lidServo.write(openAngle); lidOpen=true; }
-      else if (distance_cm > openDistance && lidOpen) { lidServo.write(closeAngle); lidOpen=false; }
+      if (distance_cm > 0 && distance_cm <= openDistance && !lidOpen) { lidServo.write(angle1); lidOpen=true; }
+      else if (distance_cm > openDistance && lidOpen) { lidServo.write(angle2); lidOpen=false; }
     }
   }
 
