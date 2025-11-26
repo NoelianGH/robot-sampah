@@ -20,7 +20,7 @@ const int openDistance = 30;  // cm threshold for opening lid
 const int angle1 = 180;
 const int angle2 = 0;
 */
-bool lidOpen = false;
+bool lidOpen = true;
 
 // Current movement state for debugging
 String currentState = "STOP";
@@ -71,6 +71,8 @@ void setup() {
   Serial.begin(9600);
   delay(200);
   lidServo.write(0);
+  lidOpen = false;
+
   setMotorsStop();
 
   Serial.println("ARDUINO READY");
